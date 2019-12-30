@@ -47,6 +47,11 @@ export default class Cable {
 			const that = this;
 			const channelName = name || subscription.channel;
 
+			// Don't subscribe to the same exact identifier if we're already subscribed to it.
+			if(this._channels.subscriptions && this._channels.subscriptions[channelName] && this._channels.subscriptions[channelName].identifier == JSON.stringify(subscription)) {
+				return;
+			}
+
 			this._channels.subscriptions[
 				channelName
 			] = this._cable.subscriptions.create(subscription, {
